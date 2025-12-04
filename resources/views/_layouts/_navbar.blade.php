@@ -1,37 +1,46 @@
-<header class="bg-white">
-    <div class="container mx-auto px-6 py-3">
-        <div class="flex items-center justify-between">
-            <div class="hidden w-full text-gray-600 md:flex md:items-center">
-{{--                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">--}}
-{{--                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.2721 10.2721C16.2721 12.4813 14.4813 14.2721 12.2721 14.2721C10.063 14.2721 8.27214 12.4813 8.27214 10.2721C8.27214 8.06298 10.063 6.27212 12.2721 6.27212C14.4813 6.27212 16.2721 8.06298 16.2721 10.2721ZM14.2721 10.2721C14.2721 11.3767 13.3767 12.2721 12.2721 12.2721C11.1676 12.2721 10.2721 11.3767 10.2721 10.2721C10.2721 9.16755 11.1676 8.27212 12.2721 8.27212C13.3767 8.27212 14.2721 9.16755 14.2721 10.2721Z" fill="currentColor" /><path fill-rule="evenodd" clip-rule="evenodd" d="M5.79417 16.5183C2.19424 13.0909 2.05438 7.39409 5.48178 3.79417C8.90918 0.194243 14.6059 0.054383 18.2059 3.48178C21.8058 6.90918 21.9457 12.6059 18.5183 16.2059L12.3124 22.7241L5.79417 16.5183ZM17.0698 14.8268L12.243 19.8965L7.17324 15.0698C4.3733 12.404 4.26452 7.97318 6.93028 5.17324C9.59603 2.3733 14.0268 2.26452 16.8268 4.93028C19.6267 7.59603 19.7355 12.0268 17.0698 14.8268Z" fill="currentColor" />--}}
-{{--                </svg>--}}
-{{--                <span class="mx-1 text-sm"></span>--}}
-            </div>
-            <div class="w-full text-gray-700 md:text-center text-2xl font-semibold">
-                ZARLY PETSHOP
-            </div>
-            <div class="flex items-center justify-end w-full">
-               {{-- <button @click="cartOpen = !cartOpen" class="text-gray-600 focus:outline-none mx-4 sm:mx-0">
-                   <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                       <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                   </svg>
-               </button> --}}
-
-                <div class="flex sm:hidden">
-                   <button @click="isOpen = !isOpen" type="button" class="text-gray-600 hover:text-gray-500 focus:outline-none focus:text-gray-500" aria-label="toggle menu">
-                       <svg viewBox="0 0 24 24" class="h-6 w-6 fill-current">
-                           <path fill-rule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"></path>
-                       </svg>
-            </button>
+<header class="relative z-20 w-full">
+    <div class="mx-auto mt-6 w-full max-w-6xl px-6 lg:px-8">
+        <div class="glass-panel flex flex-wrap items-center justify-between gap-4 px-6 py-5">
+            <div class="flex items-center gap-4">
+                <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500 text-lg font-semibold text-white shadow-lg shadow-cyan-500/40">ZP</span>
+                <div>
+                    <p class="text-xs uppercase tracking-[0.4em] text-slate-500">Zarly Petshop</p>
+                    <p class="text-lg font-semibold text-slate-900">Inventory & Experience Hub</p>
                 </div>
             </div>
-        </div>
-        <nav :class="isOpen ? '' : 'hidden'" class="sm:flex sm:justify-center sm:items-center mt-4">
-            <div class="flex flex-col sm:flex-row">
-                <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="{{ route('home') }}">Home</a>
-                <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="#">Categories</a>
-                <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="#">Contact</a>
+            <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold">
+                <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-slate-900' : 'text-slate-500 hover:text-slate-900' }} transition-colors">Beranda</a>
+                <a href="{{ route('category') }}" class="{{ request()->routeIs('category') ? 'text-slate-900' : 'text-slate-500 hover:text-slate-900' }} transition-colors">Kategori</a>
+                <a href="#contact" class="text-slate-500 transition-colors hover:text-slate-900">Kontak</a>
+                <a href="#insight" class="text-slate-500 transition-colors hover:text-slate-900">Insight</a>
+            </nav>
+            <div class="hidden sm:flex items-center gap-3 text-sm font-semibold">
+                <a href="mailto:hello@zarlypetshop.id" class="rounded-full border border-slate-200 px-4 py-2 text-slate-600 transition hover:border-cyan-400 hover:text-slate-900">Hubungi Kami</a>
+                <button @click="cartOpen = true" class="inline-flex items-center gap-2 rounded-full bg-cyan-600 px-5 py-2 text-white shadow-lg shadow-cyan-600/40 transition hover:bg-cyan-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.5 4h1.878a1 1 0 01.98.804L6.5 12.5m0 0-.63 3.146A2 2 0 007.842 18h10.316a2 2 0 001.972-1.684L21.5 9.5H7m-1.5 7.5a1 1 0 102 0 1 1 0 00-2 0zm10 0a1 1 0 102 0 1 1 0 00-2 0z" />
+                    </svg>
+                    Buka Keranjang
+                </button>
             </div>
-        </nav>
+            <button @click="mobileNavOpen = !mobileNavOpen" class="ml-auto inline-flex items-center rounded-full border border-slate-200 p-2 text-slate-600 transition hover:border-cyan-400 hover:text-slate-900 lg:hidden" aria-label="Toggle navigation">
+                <svg x-show="!mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+                <svg x-show="mobileNavOpen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="lg:hidden" x-cloak x-show="mobileNavOpen" x-transition>
+            <div class="glass-panel mt-3 flex flex-col gap-4 px-6 py-5 text-sm font-semibold">
+                <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-slate-900' : 'text-slate-500' }}">Beranda</a>
+                <a href="{{ route('category') }}" class="{{ request()->routeIs('category') ? 'text-slate-900' : 'text-slate-500' }}">Kategori</a>
+                <a href="#contact" class="text-slate-500">Kontak</a>
+                <a href="#insight" class="text-slate-500">Insight</a>
+                <button @click="cartOpen = true; mobileNavOpen = false" class="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-cyan-600 px-4 py-2 text-white shadow-lg shadow-cyan-600/40">Buka Keranjang</button>
+            </div>
+        </div>
     </div>
 </header>

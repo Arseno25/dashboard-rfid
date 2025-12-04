@@ -1,99 +1,150 @@
 @extends('_layouts.master')
 
 @section('body')
-<div class="container mx-auto px-6">
-    <h3 class="text-gray-700 text-2xl font-medium">Checkout</h3>
-    <div class="flex flex-col lg:flex-row mt-8">
-        <div class="w-full lg:w-1/2 order-2">
-            <div class="flex items-center">
-                <button class="flex text-sm text-blue-500 focus:outline-none"><span class="flex items-center justify-center text-white bg-blue-500 rounded-full h-5 w-5 mr-2">1</span> Contacts</button>
-                <button class="flex text-sm text-gray-700 ml-8 focus:outline-none"><span class="flex items-center justify-center border-2 border-blue-500 rounded-full h-5 w-5 mr-2">2</span> Shipping</button>
-                <button class="flex text-sm text-gray-500 ml-8 focus:outline-none" disabled><span class="flex items-center justify-center border-2 border-gray-500 rounded-full h-5 w-5 mr-2">3</span> Payments</button>
-            </div>
-            <form class="mt-8 lg:w-3/4">
-                <div>
-                    <h4 class="text-sm text-gray-500 font-medium">Delivery method</h4>
-                    <div class="mt-6">
-                        <button class="flex items-center justify-between w-full bg-white rounded-md border-2 border-blue-500 p-4 focus:outline-none">
-                            <label class="flex items-center">
-                                <input type="radio" class="form-radio h-5 w-5 text-blue-600" checked><span class="ml-2 text-sm text-gray-700">MS Delivery</span>
-                            </label>
+<div class="grid gap-10 lg:grid-cols-[1.4fr,1fr]">
+    <section class="glass-panel px-8 py-10">
+        <div class="flex flex-col gap-4">
+            <p class="text-xs uppercase tracking-[0.4em] text-slate-400">Checkout journey</p>
+            <h1 class="text-3xl font-semibold text-slate-900">Selesaikan transaksi pelanggan dengan tiga langkah jelas.</h1>
+        </div>
 
-                            <span class="text-gray-600 text-sm">$18</span>
-                        </button>
-                        <button class="mt-6 flex items-center justify-between w-full bg-white rounded-md border p-4 focus:outline-none">
-                            <label class="flex items-center">
-                                <input type="radio" class="form-radio h-5 w-5 text-blue-600"><span class="ml-2 text-sm text-gray-700">DC Delivery</span>
-                            </label>
-
-                            <span class="text-gray-600 text-sm">$26</span>
-                        </button>
+        <ol class="mt-8 space-y-6">
+            <li class="rounded-3xl border border-slate-100 bg-white/70 p-6 shadow-sm shadow-slate-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-600 text-sm font-semibold text-white">1</span>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-900">Data kontak</p>
+                            <p class="text-xs text-slate-500">Nama, email, dan nomor pelanggan.</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-semibold uppercase tracking-widest text-cyan-600">aktif</span>
+                </div>
+                <div class="mt-5 grid gap-4 md:grid-cols-2">
+                    <label class="text-xs font-semibold text-slate-500">Nama lengkap
+                        <input type="text" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-cyan-400 focus:outline-none focus:ring-0" placeholder="Alya Pratama" />
+                    </label>
+                    <label class="text-xs font-semibold text-slate-500">Email
+                        <input type="email" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-cyan-400 focus:outline-none focus:ring-0" placeholder="pelanggan@email.com" />
+                    </label>
+                    <label class="text-xs font-semibold text-slate-500">Nomor WhatsApp
+                        <input type="tel" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-cyan-400 focus:outline-none focus:ring-0" placeholder="08xxxxxxxx" />
+                    </label>
+                    <label class="text-xs font-semibold text-slate-500">Catatan internal
+                        <input type="text" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-cyan-400 focus:outline-none focus:ring-0" placeholder="Pelanggan VIP" />
+                    </label>
+                </div>
+            </li>
+            <li class="rounded-3xl border border-slate-100 bg-white/70 p-6 shadow-sm shadow-slate-200">
+                <div class="flex items-center gap-3">
+                    <span class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">2</span>
+                    <div>
+                        <p class="text-sm font-semibold text-slate-900">Pengiriman</p>
+                        <p class="text-xs text-slate-500">Metode kirim dan alamat lengkap.</p>
                     </div>
                 </div>
-                <div class="mt-8">
-                    <h4 class="text-sm text-gray-500 font-medium">Delivery address</h4>
-                    <div class="mt-6 flex">
-                        <label class="block w-3/12">
-                            <select class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 mt-1">
-                                <option>NY</option>
-                                <option>DC</option>
-                                <option>MH</option>
-                                <option>MD</option>
+                <div class="mt-5 space-y-4">
+                    <div class="flex flex-col gap-3 sm:flex-row">
+                        <label class="flex flex-1 items-center gap-3 rounded-2xl border border-cyan-300 bg-cyan-50 px-4 py-3 text-sm font-semibold text-cyan-700">
+                            <input type="radio" name="shipping" checked class="h-4 w-4 border-cyan-300 text-cyan-600 focus:ring-cyan-500" />
+                            Kurir internal • 2 jam
+                        </label>
+                        <label class="flex flex-1 items-center gap-3 rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-600">
+                            <input type="radio" name="shipping" class="h-4 w-4 border-slate-300 text-cyan-600 focus:ring-cyan-500" />
+                            Ekspedisi partner
+                        </label>
+                    </div>
+                    <div class="grid gap-3 sm:grid-cols-3">
+                        <label class="text-xs font-semibold text-slate-500">Provinsi
+                            <select class="mt-2 w-full rounded-2xl border border-slate-200 px-3 py-3 text-sm text-slate-900 focus:border-cyan-400 focus:outline-none focus:ring-0">
+                                <option>DKI Jakarta</option>
+                                <option>Jawa Barat</option>
                             </select>
                         </label>
-                        <label class="block flex-1 ml-3">
-                            <input type="text" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 mt-1" placeholder="Address">
+                        <label class="text-xs font-semibold text-slate-500">Kota
+                            <input type="text" class="mt-2 w-full rounded-2xl border border-slate-200 px-3 py-3 text-sm text-slate-900 focus:border-cyan-400 focus:outline-none focus:ring-0" placeholder="Jakarta Selatan" />
+                        </label>
+                        <label class="text-xs font-semibold text-slate-500">Tanggal kirim
+                            <input type="date" class="mt-2 w-full rounded-2xl border border-slate-200 px-3 py-3 text-sm text-slate-900 focus:border-cyan-400 focus:outline-none focus:ring-0" />
                         </label>
                     </div>
+                    <label class="text-xs font-semibold text-slate-500">Alamat lengkap
+                        <textarea class="mt-2 w-full rounded-2xl border border-slate-200 px-3 py-3 text-sm text-slate-900 focus:border-cyan-400 focus:outline-none focus:ring-0" rows="3" placeholder="Nama jalan, nomor rumah, patokan"></textarea>
+                    </label>
                 </div>
-                <div class="mt-8">
-                    <h4 class="text-sm text-gray-500 font-medium">Date</h4>
-                    <div class="mt-6 flex">
-                        <label class="block flex-1">
-                            <input type="date" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 mt-1" placeholder="Date">
-                        </label>
+            </li>
+            <li class="rounded-3xl border border-slate-100 bg-white/70 p-6 shadow-sm shadow-slate-200">
+                <div class="flex items-center gap-3">
+                    <span class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-200 text-sm font-semibold text-slate-600">3</span>
+                    <div>
+                        <p class="text-sm font-semibold text-slate-900">Pembayaran</p>
+                        <p class="text-xs text-slate-500">Metode akan muncul setelah isi langkah sebelumnya.</p>
                     </div>
                 </div>
-                <div class="flex items-center justify-between mt-8">
-                    <button class="flex items-center text-gray-700 text-sm font-medium rounded hover:underline focus:outline-none">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M7 16l-4-4m0 0l4-4m-4 4h18"></path></svg>
-                        <span class="mx-2">Back step</span>
-                    </button>
-                    <button class="flex items-center px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                        <span>Payment</span>
-                        <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </button>
-                </div>
-            </form>
+            </li>
+        </ol>
+
+        <div class="mt-8 flex flex-col gap-3 text-sm font-semibold sm:flex-row">
+            <button class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 px-6 py-3 text-slate-600 transition hover:border-cyan-400 hover:text-slate-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+                Kembali
+            </button>
+            <button class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-white transition hover:bg-cyan-600">
+                Lanjut ke pembayaran
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
         </div>
-        <div class="w-full mb-8 flex-shrink-0 order-1 lg:w-1/2 lg:mb-0 lg:order-2">
-            <div class="flex justify-center lg:justify-end">
-                <div class="border rounded-md max-w-md w-full px-4 py-3">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-gray-700 font-medium">Order total (2)</h3>
-                        <span class="text-gray-600 text-sm">Edit</span>
-                    </div>
-                    <div class="flex justify-between mt-6">
-                        <div class="flex">
-                            <img class="h-20 w-20 object-cover rounded" src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80" alt="">
-                            <div class="mx-3">
-                                <h3 class="text-sm text-gray-600">Mac Book Pro</h3>
-                                <div class="flex items-center mt-2">
-                                    <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-                                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    </button>
-                                    <span class="text-gray-700 mx-2">2</span>
-                                    <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-                                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <span class="text-gray-600">20$</span>
-                    </div>
+    </section>
+
+    <aside class="glass-panel h-fit px-8 py-10">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs uppercase tracking-[0.4em] text-slate-400">Ringkasan</p>
+                <h2 class="text-2xl font-semibold text-slate-900">Order total (2)</h2>
+            </div>
+            <button class="text-xs font-semibold text-cyan-600">Edit</button>
+        </div>
+        <div class="mt-6 space-y-4">
+            <div class="flex items-center gap-4 rounded-2xl border border-slate-100 bg-white/80 p-4">
+                <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=200&q=80" alt="Product" class="h-16 w-16 rounded-2xl object-cover" />
+                <div class="flex-1">
+                    <p class="text-sm font-semibold text-slate-900">RFID Collar</p>
+                    <p class="text-xs text-slate-500">Qty 2 • SKU 0012</p>
                 </div>
+                <p class="text-sm font-semibold text-slate-900">{{ formatCurrency(250000) }}</p>
+            </div>
+            <div class="flex items-center gap-4 rounded-2xl border border-slate-100 bg-white/80 p-4">
+                <img src="https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=200&q=80" alt="Product" class="h-16 w-16 rounded-2xl object-cover" />
+                <div class="flex-1">
+                    <p class="text-sm font-semibold text-slate-900">Premium Cat Food</p>
+                    <p class="text-xs text-slate-500">Qty 1 • SKU 0431</p>
+                </div>
+                <p class="text-sm font-semibold text-slate-900">{{ formatCurrency(180000) }}</p>
             </div>
         </div>
-    </div>
+        <div class="mt-6 space-y-3 text-sm text-slate-600">
+            <div class="flex justify-between">
+                <span>Subtotal</span>
+                <span class="font-semibold text-slate-900">{{ formatCurrency(430000) }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span>Diskon aktif</span>
+                <span class="font-semibold text-cyan-600">-{{ formatCurrency(43000) }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span>Pengiriman</span>
+                <span class="font-semibold text-slate-900">{{ formatCurrency(20000) }}</span>
+            </div>
+            <div class="flex justify-between border-t border-slate-100 pt-3 text-base font-semibold text-slate-900">
+                <span>Total</span>
+                <span>{{ formatCurrency(407000) }}</span>
+            </div>
+        </div>
+        <p class="mt-4 text-xs text-slate-400">Angka di atas merupakan contoh visual; sesuaikan dengan nilai transaksi sebenarnya.</p>
+    </aside>
 </div>
 @endsection

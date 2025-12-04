@@ -1,142 +1,72 @@
 @extends('_layouts.master')
 
 @section('body')
-<div class="container mx-auto px-6">
-    <div class="h-64 rounded-md overflow-hidden bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1577655197620-704858b270ac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1280&q=144')">
-        <div class="bg-gray-900 bg-opacity-50 flex items-center h-full">
-            <div class="px-10 max-w-xl">
-                <h2 class="text-2xl text-white font-semibold">Sport Shoes</h2>
-                <p class="mt-2 text-gray-400">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore facere provident molestias ipsam sint voluptatum pariatur.</p>
-                <button class="flex items-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                    <span>Shop Now</span>
-                    <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+<section class="glass-panel px-8 py-12">
+    <div class="grid gap-10 lg:grid-cols-2">
+        <div>
+            <p class="text-xs uppercase tracking-[0.4em] text-slate-400">RFID powered</p>
+            <h1 class="mt-3 text-4xl font-semibold text-slate-900">Dashboard RFID untuk petshop yang gesit dan premium.</h1>
+            <p class="mt-4 text-base text-slate-500">Zarly Petshop menyajikan inventori dengan visual profesional agar tim toko dapat mempromosikan produk unggulan dengan cepat.</p>
+            <div class="mt-8 flex flex-wrap gap-3 text-sm text-slate-500">
+                <span class="rounded-full border border-slate-200 px-4 py-2">Realtime stock</span>
+                <span class="rounded-full border border-slate-200 px-4 py-2">Insight pelanggan</span>
+                <span class="rounded-full border border-slate-200 px-4 py-2">Monitoring diskon</span>
+            </div>
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a href="{{ route('home') }}" class="inline-flex items-center justify-center rounded-full bg-cyan-600 px-6 py-3 text-white shadow-lg shadow-cyan-600/40 transition hover:bg-cyan-500">Masuk ke katalog</a>
+                <button @click="cartOpen = true" class="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-3 text-slate-600 transition hover:border-cyan-400 hover:text-slate-900">
+                    Lihat keranjang demo
                 </button>
             </div>
         </div>
-    </div>
-    <div class="md:flex mt-8 md:-mx-4">
-        <div class="w-full h-64 md:mx-4 rounded-md overflow-hidden bg-cover bg-center md:w-1/2" style="background-image: url('https://images.unsplash.com/photo-1547949003-9792a18a2601?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80')">
-            <div class="bg-gray-900 bg-opacity-50 flex items-center h-full">
-                <div class="px-10 max-w-xl">
-                    <h2 class="text-2xl text-white font-semibold">Back Pack</h2>
-                    <p class="mt-2 text-gray-400">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore facere provident molestias ipsam sint voluptatum pariatur.</p>
-                    <button class="flex items-center mt-4 text-white text-sm uppercase font-medium rounded hover:underline focus:outline-none">
-                        <span>Shop Now</span>
-                        <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </button>
+        <div class="rounded-[28px] border border-white/40 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8 text-white shadow-2xl">
+            <p class="text-xs uppercase tracking-[0.4em] text-white/60">Snapshot</p>
+            <h2 class="mt-3 text-3xl font-semibold">Key metrics</h2>
+            <div class="mt-8 grid gap-6 sm:grid-cols-2">
+                <div class="rounded-2xl bg-white/10 p-5">
+                    <p class="text-xs text-white/60">Produk aktif</p>
+                    <p class="mt-3 text-3xl font-semibold">120</p>
+                    <p class="text-xs text-white/50">Stok sehat siap dikirim</p>
                 </div>
-            </div>
-        </div>
-        <div class="w-full h-64 mt-8 md:mx-4 rounded-md overflow-hidden bg-cover bg-center md:mt-0 md:w-1/2" style="background-image: url('https://images.unsplash.com/photo-1486401899868-0e435ed85128?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80')">
-            <div class="bg-gray-900 bg-opacity-50 flex items-center h-full">
-                <div class="px-10 max-w-xl">
-                    <h2 class="text-2xl text-white font-semibold">Games</h2>
-                    <p class="mt-2 text-gray-400">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore facere provident molestias ipsam sint voluptatum pariatur.</p>
-                    <button class="flex items-center mt-4 text-white text-sm uppercase font-medium rounded hover:underline focus:outline-none">
-                        <span>Shop Now</span>
-                        <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </button>
+                <div class="rounded-2xl bg-white/10 p-5">
+                    <p class="text-xs text-white/60">Diskon rata-rata</p>
+                    <p class="mt-3 text-3xl font-semibold">18%</p>
+                    <p class="text-xs text-white/50">Sesuai model Discount aktif</p>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="mt-16">
-        <h3 class="text-gray-600 text-2xl font-medium">Fashions</h3>
-        <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-            <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=376&q=80')">
-                    <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    </button>
+                <div class="rounded-2xl bg-white/10 p-5">
+                    <p class="text-xs text-white/60">Reorder alert</p>
+                    <p class="mt-3 text-3xl font-semibold">9 SKU</p>
+                    <p class="text-xs text-white/50">Stok &lt; 5 otomatis ditandai</p>
                 </div>
-                <div class="px-5 py-3">
-                    <h3 class="text-gray-700 uppercase">Chanel</h3>
-                    <span class="text-gray-500 mt-2">$12</span>
-                </div>
-            </div>
-            <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1544441893-675973e31985?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80')">
-                    <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    </button>
-                </div>
-                <div class="px-5 py-3">
-                    <h3 class="text-gray-700 uppercase">Man Mix</h3>
-                    <span class="text-gray-500 mt-2">$12</span>
-                </div>
-            </div>
-            <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1532667449560-72a95c8d381b?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80')">
-                    <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    </button>
-                </div>
-                <div class="px-5 py-3">
-                    <h3 class="text-gray-700 uppercase">Classic watch</h3>
-                    <span class="text-gray-500 mt-2">$12</span>
-                </div>
-            </div>
-            <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1590664863685-a99ef05e9f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=345&q=80')">
-                    <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    </button>
-                </div>
-                <div class="px-5 py-3">
-                    <h3 class="text-gray-700 uppercase">woman mix</h3>
-                    <span class="text-gray-500 mt-2">$12</span>
+                <div class="rounded-2xl bg-white/10 p-5">
+                    <p class="text-xs text-white/60">Waktu update</p>
+                    <p class="mt-3 text-3xl font-semibold">{{ now()->format('H:i') }} WIB</p>
+                    <p class="text-xs text-white/50">Mengacu data terbaru</p>
                 </div>
             </div>
         </div>
     </div>
-     <div class="mt-16">
-        <h3 class="text-gray-600 text-2xl font-medium">Fashions</h3>
-        <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-            <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=376&q=80')">
-                    <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    </button>
-                </div>
-                <div class="px-5 py-3">
-                    <h3 class="text-gray-700 uppercase">Chanel</h3>
-                    <span class="text-gray-500 mt-2">$12</span>
-                </div>
-            </div>
-            <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1544441893-675973e31985?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80')">
-                    <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    </button>
-                </div>
-                <div class="px-5 py-3">
-                    <h3 class="text-gray-700 uppercase">Man Mix</h3>
-                    <span class="text-gray-500 mt-2">$12</span>
-                </div>
-            </div>
-            <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1532667449560-72a95c8d381b?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80')">
-                    <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    </button>
-                </div>
-                <div class="px-5 py-3">
-                    <h3 class="text-gray-700 uppercase">Classic watch</h3>
-                    <span class="text-gray-500 mt-2">$12</span>
-                </div>
-            </div>
-            <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1590664863685-a99ef05e9f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=345&q=80')">
-                    <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    </button>
-                </div>
-                <div class="px-5 py-3">
-                    <h3 class="text-gray-700 uppercase">woman mix</h3>
-                    <span class="text-gray-500 mt-2">$12</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</section>
+
+<section id="insight" class="mt-12 grid gap-8 md:grid-cols-3">
+    <article class="glass-panel p-6">
+        <h3 class="text-xl font-semibold text-slate-900">Sinyal permintaan</h3>
+        <p class="mt-2 text-sm text-slate-500">Pantau kategori paling sering dicari lalu optimalkan visibilitas produk.</p>
+        <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li>1. Pakan kucing premium</li>
+            <li>2. Vitamin anjing aktif</li>
+            <li>3. Aksesori grooming</li>
+        </ul>
+    </article>
+    <article class="glass-panel p-6">
+        <h3 class="text-xl font-semibold text-slate-900">Checkout modern</h3>
+        <p class="mt-2 text-sm text-slate-500">Halaman checkout baru menampilkan langkah kontak, pengiriman, hingga ringkasan order dengan tipografi profesional.</p>
+        <a href="{{ route('home') }}" class="mt-4 inline-flex text-sm font-semibold text-cyan-600 hover:text-cyan-500">Lihat contoh alur →</a>
+    </article>
+    <article class="glass-panel p-6">
+        <h3 class="text-xl font-semibold text-slate-900">Integrasi siap</h3>
+        <p class="mt-2 text-sm text-slate-500">Tampilan bersih ini mudah dipadukan dengan sistem kasir, marketplace, atau kanal pemasaran favorit Anda.</p>
+        <p class="mt-4 text-sm text-slate-600">Tetap ringan, tetap responsif, siap mendukung penjualan.</p>
+    </article>
+</section>
 @endsection
