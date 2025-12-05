@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Filament\Admin\Resources\CustomerResource;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Discount;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\States\OrderStatus\Success as OrderSuccess;
 use App\Models\States\Status\Inactive;
 use App\Models\User;
 use Filament\Notifications\Actions\Action;
@@ -189,17 +189,32 @@ class TransactionController extends Controller
 
     private function saveOrder($user, $product, $qty_barang, $status, $discount_amount, $error_response = null)
     {
-        $transaksi = new Order([
+        $order = Order::create([
+            'order_number' => Order::generateOrderNumber('RFID'),
             'customer_id' => $user->id,
             'product_id' => $product->id,
+            'buyer_name' => $user->name,
+            'buyer_phone' => $user->phone,
+            'rfid_uid' => $user->uid,
             'quantity' => $qty_barang,
             'status' => $status,
+            'payment_method' => 'rfid',
+            'payment_status' => $status === OrderSuccess::$name ? 'paid' : 'failed',
             'price' => $product->price,
             'price_before_discount' => $product->price * $qty_barang,
             'response' => $error_response ? json_encode($error_response['Detail']['Status']) : null,
-            'discount_amount' => $discount_amount ? $discount_amount : 0, // Menambah kolom discount_amount
-            'total' => $product->price * $qty_barang - $discount_amount, // Mengurangkan discount_amount dari total
+            'discount_amount' => $discount_amount ?: 0,
+            'total' => $product->price * $qty_barang - $discount_amount,
         ]);
-        $transaksi->save();
+
+        $order->items()->create([
+            'product_id' => $product->id,
+            'product_name' => $product->name,
+            'price' => $product->price,
+            'quantity' => $qty_barang,
+            'subtotal' => ($product->price * $qty_barang) - $discount_amount,
+        ]);
+
+        return $order;
     }
 }

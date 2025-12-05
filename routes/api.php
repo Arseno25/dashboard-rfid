@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/proses-transaksi', [App\Http\Controllers\Api\TransactionController::class, 'prosesTransaksi']);
+Route::post('/midtrans/webhook', [App\Http\Controllers\Api\CheckoutController::class, 'webhook']);

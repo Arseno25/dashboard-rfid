@@ -56,7 +56,7 @@ class AdminPanelProvider extends PanelProvider
 
                     ])
                     ->sortBy('navigation'),
-                \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make()
+//                \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make()
             ])
             ->databaseNotifications()
             ->databaseNotificationsPolling('5s')

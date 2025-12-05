@@ -13,15 +13,6 @@
                 </svg>
             </button>
         </div>
-        <div x-show="cartNotice" x-transition class="mx-6 mt-4 rounded-2xl border px-4 py-3 text-sm" :class="{
-                'border-emerald-200 bg-emerald-50 text-emerald-700': cartNoticeType === 'success',
-                'border-red-200 bg-red-50 text-red-700': cartNoticeType === 'error',
-                'border-amber-200 bg-amber-50 text-amber-700': cartNoticeType === 'warning',
-                'border-slate-200 bg-slate-50 text-slate-600': cartNoticeType === 'info'
-            }">
-            <p x-text="cartNotice"></p>
-        </div>
-
         <div class="flex-1 space-y-5 overflow-y-auto px-6 py-6">
             <div class="rounded-3xl border border-dashed border-slate-200/80 bg-slate-50/80 px-4 py-4 text-sm text-slate-500">
                 Tambahkan produk favorit pelanggan, atur jumlahnya, dan lihat total belanja secara instan di sini.
@@ -37,8 +28,15 @@
                     <img :src="item.image || '{{ asset('default.png') }}'" alt="Produk" class="h-16 w-16 rounded-2xl object-cover" />
                     <div class="flex-1">
                         <p class="text-sm font-semibold text-slate-900" x-text="item.name"></p>
-                        <p class="text-xs text-slate-400" x-text="`Qty ${item.quantity}`"></p>
-                        <p class="mt-2 text-sm font-semibold text-slate-900" x-text="formatCurrency((item.price || 0) * (item.quantity || 1))"></p>
+                        <div class="mt-3 flex items-center gap-3">
+                            <span class="text-[11px] uppercase tracking-[0.2em] text-slate-400">Qty</span>
+                            <div class="flex items-center gap-2">
+                                <button type="button" class="h-8 w-8 rounded-full border border-slate-200 text-sm font-semibold text-slate-600 transition hover:border-cyan-300 hover:text-slate-900" @click="updateItemQuantity(index, -1)" aria-label="Kurangi jumlah">−</button>
+                                <span class="w-10 text-center text-sm font-semibold text-slate-900" x-text="item.quantity ?? 1"></span>
+                                <button type="button" class="h-8 w-8 rounded-full border border-slate-200 text-sm font-semibold text-slate-600 transition hover:border-cyan-300 hover:text-slate-900" @click="updateItemQuantity(index, 1)" aria-label="Tambah jumlah">+</button>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-sm font-semibold text-slate-900" x-text="formatCurrency((item.price || 0) * (item.quantity || 1))"></p>
                     </div>
                     <button class="text-xs font-semibold text-rose-500 hover:text-rose-600" @click="removeItem(index)">Hapus</button>
                 </div>
@@ -50,8 +48,11 @@
                 <span>Subtotal</span>
                 <span class="text-lg font-semibold text-slate-900" x-text="formatCurrency(cartSubtotal())">{{ formatCurrency(0) }}</span>
             </div>
-            <button class="mt-4 w-full rounded-2xl bg-slate-900 py-3 text-sm font-semibold text-white transition hover:bg-cyan-600" @click="proceedCheckout">Lanjut ke pembayaran</button>
-            <p class="mt-3 text-center text-xs text-slate-400">Masukkan detail pelanggan untuk menyelesaikan pembayaran.</p>
+            <button type="button" class="mt-4 w-full rounded-2xl bg-slate-900 py-3 text-sm font-semibold text-white transition hover:bg-cyan-600 disabled:cursor-not-allowed disabled:opacity-60" @click="proceedCheckout" :disabled="!cartItems.length || midtransProcessing || !isAuthenticated">
+                Lanjut ke pembayaran
+            </button>
+            <p class="mt-3 text-center text-xs text-slate-400" x-show="isAuthenticated">Pastikan profil Anda berisi nama, email, dan nomor telepon sebelum checkout.</p>
+            <p class="mt-3 text-center text-xs text-slate-400" x-show="!isAuthenticated">Masuk ke akun Anda untuk membuka akses checkout.</p>
         </div>
     </section>
 </div>

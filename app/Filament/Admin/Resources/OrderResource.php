@@ -3,18 +3,19 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\OrderResource\Widgets\OrderOverview;
+use App\Models\Order;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Order;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use App\Models\States\OrderStatus\Failed;
 use App\Models\States\OrderStatus\Success;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Illuminate\Database\Eloquent\Collection;
@@ -56,12 +57,21 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('order_number')
+                    ->label('Order #')
+                    ->copyable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('customer.name')
                     ->label('Customer')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('buyer_name')
+                    ->label('Contact')
+                    ->toggleable()
+                    ->formatStateUsing(fn($state, $record) => $state ?? $record->customer->name ?? '—'),
                 Tables\Columns\TextColumn::make('product.name')
                     ->label('Product')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('product.category.name')
                     ->label('Category'),
                 Tables\Columns\TextColumn::make('status')
@@ -91,11 +101,37 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('total')
                     ->prefix('Rp. ')
                     ->label('Total'),
+                Tables\Columns\BadgeColumn::make('payment_method')
+                    ->label('Method')
+                    ->colors([
+                        'primary',
+                        'success' => 'midtrans',
+                        'warning' => 'rfid',
+                    ]),
+                Tables\Columns\BadgeColumn::make('payment_status')
+                    ->label('Payment Status')
+                    ->colors([
+                        'warning' => 'pending',
+                        'success' => 'paid',
+                        'danger' => 'failed',
+                    ]),
+                Tables\Columns\TextColumn::make('invoice_sent_at')
+                    ->label('Invoice dikirim')
+                    ->dateTime('d M Y H:i')
+                    ->toggleable()
+                    ->placeholder('—'),
             ])
             ->filters([
                 //
             ])
-            ->actions([Tables\Actions\ViewAction::make(),
+            ->actions([
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\Action::make('invoice')
+                    ->label('Invoice')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->url(fn (Order $record) => route('orders.invoice', $record))
+                    ->openUrlInNewTab()
+                    ->visible(fn (Order $record) => filled($record->invoice_path)),
             ])
             ->headerActions([
                 ExportAction::make()->exports([
@@ -114,8 +150,11 @@ class OrderResource extends Resource
                 Section::make('Invoices')
                 ->icon('heroicon-m-shopping-bag')
                 ->schema([
+                    TextEntry::make('order_number')->label('Order #'),
                     TextEntry::make('customer.name')->label('Name'),
                     TextEntry::make('customer.uid')->label('UID Customer'),
+                    TextEntry::make('buyer_email')->label('Email')->placeholder('—'),
+                    TextEntry::make('buyer_phone')->label('Phone')->placeholder('—'),
                     TextEntry::make('product.name')->label('Product'),
                     TextEntry::make('product.category.name')->label('Category'),
                     TextEntry::make('status')
@@ -131,10 +170,24 @@ class OrderResource extends Resource
                     TextEntry::make('price_before_discount')->label('Total Before Discount')->prefix('Rp. '),
                     TextEntry::make('discount_amount')->label('Discount')->prefix('-Rp. '),
                     TextEntry::make('total')->label('Total')->prefix('Rp. '),
+                    TextEntry::make('payment_method')->label('Payment Method')->badge(),
+                    TextEntry::make('payment_status')->label('Payment Status')->badge(),
+                    TextEntry::make('invoice_sent_at')->label('Invoice Dikirim')->placeholder('Belum dikirim')->dateTime('d M Y H:i'),
+                    TextEntry::make('buyer_note')->label('Catatan Pembeli')->placeholder('—'),
                     TextEntry::make('created_at')->label('Payment Time')->dateTime('D, d M Y H:i:s'),
                 ])
                     ->columns(3)
                     ->compact(),
+                Section::make('Items')
+                    ->schema([
+                        RepeatableEntry::make('items')
+                            ->schema([
+                                TextEntry::make('product_name')->label('Product'),
+                                TextEntry::make('quantity')->label('Qty'),
+                                TextEntry::make('subtotal')->label('Subtotal')->prefix('Rp. '),
+                            ])
+                            ->columns(3),
+                    ]),
             ]);
     }
 

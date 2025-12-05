@@ -14,8 +14,9 @@
             </div>
             <div class="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a href="{{ route('home') }}" class="inline-flex items-center justify-center rounded-full bg-cyan-600 px-6 py-3 text-white shadow-lg shadow-cyan-600/40 transition hover:bg-cyan-500">Masuk ke katalog</a>
-                <button @click="cartOpen = true" class="inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-3 text-slate-600 transition hover:border-cyan-400 hover:text-slate-900">
+                <button @click="cartOpen = true" class="relative inline-flex items-center justify-center rounded-full border border-slate-200 px-6 py-3 text-slate-600 transition hover:border-cyan-400 hover:text-slate-900">
                     Lihat keranjang demo
+                    <span x-show="cartItemCount() > 0" class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-cyan-600 text-[10px] font-semibold text-white shadow-lg shadow-cyan-600/30" x-text="cartItemCount()"></span>
                 </button>
             </div>
         </div>

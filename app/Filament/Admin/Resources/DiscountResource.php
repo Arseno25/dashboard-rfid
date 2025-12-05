@@ -65,10 +65,14 @@ class DiscountResource extends Resource
                     ->icon(fn (string $state): string => match ($state) {
                         'active' => 'heroicon-o-check-circle',
                         'inactive' => 'heroicon-o-x-circle',
+                        'scheduled' => 'heroicon-o-clock',
+                        default => 'heroicon-o-question-mark-circle',
                     })
                     ->color( fn (string $state): string => match ($state) {
                         'active' => 'success',
                         'inactive' => 'danger',
+                        'scheduled' => 'warning',
+                        default => 'gray',
                     }),
             ])
             ->filters([

@@ -15,25 +15,26 @@
                         <span class="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-600 text-sm font-semibold text-white">1</span>
                         <div>
                             <p class="text-sm font-semibold text-slate-900">Data kontak</p>
-                            <p class="text-xs text-slate-500">Nama, email, dan nomor pelanggan.</p>
+                            <p class="text-xs text-slate-500">Otomatis mengikuti profil akun Anda.</p>
                         </div>
                     </div>
                     <span class="text-xs font-semibold uppercase tracking-widest text-cyan-600">aktif</span>
                 </div>
                 <div class="mt-5 grid gap-4 md:grid-cols-2">
                     <label class="text-xs font-semibold text-slate-500">Nama lengkap
-                        <input type="text" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-cyan-400 focus:outline-none focus:ring-0" placeholder="Alya Pratama" />
+                        <input type="text" x-model="checkoutForm.name" class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900" placeholder="Nama akun" readonly />
                     </label>
                     <label class="text-xs font-semibold text-slate-500">Email
-                        <input type="email" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-cyan-400 focus:outline-none focus:ring-0" placeholder="pelanggan@email.com" />
+                        <input type="email" x-model="checkoutForm.email" class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900" placeholder="Email login" readonly />
                     </label>
                     <label class="text-xs font-semibold text-slate-500">Nomor WhatsApp
-                        <input type="tel" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-cyan-400 focus:outline-none focus:ring-0" placeholder="08xxxxxxxx" />
+                        <input type="tel" x-model="checkoutForm.phone" class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900" placeholder="08xxxxxxxx" readonly />
                     </label>
                     <label class="text-xs font-semibold text-slate-500">Catatan internal
-                        <input type="text" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-cyan-400 focus:outline-none focus:ring-0" placeholder="Pelanggan VIP" />
+                        <input type="text" x-model="checkoutForm.note" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-cyan-400 focus:outline-none focus:ring-0" placeholder="Pelanggan VIP" />
                     </label>
                 </div>
+                <p class="mt-3 text-xs text-slate-400">Perbarui nama, email, atau nomor telepon melalui halaman profil akun.</p>
             </li>
             <li class="rounded-3xl border border-slate-100 bg-white/70 p-6 shadow-sm shadow-slate-200">
                 <div class="flex items-center gap-3">
@@ -91,7 +92,7 @@
                 </svg>
                 Kembali
             </button>
-            <button class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-white transition hover:bg-cyan-600">
+            <button type="button" class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-white transition hover:bg-cyan-600 disabled:cursor-not-allowed disabled:opacity-60" @click="proceedCheckout" :disabled="midtransProcessing || !cartItems.length || !isAuthenticated">
                 Lanjut ke pembayaran
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />

@@ -12,7 +12,7 @@
             @if (Route::has('login'))
                 <div class="flex gap-3 text-sm font-semibold">
                     @auth
-                        <a href="{{ url('/home') }}" class="rounded-full border border-slate-200 px-5 py-2 text-slate-600 transition hover:border-cyan-400 hover:text-slate-900">Masuk kios</a>
+                        <a href="{{ url('/dashboard') }}" class="rounded-full border border-slate-200 px-5 py-2 text-slate-600 transition hover:border-cyan-400 hover:text-slate-900">Masuk kios</a>
                     @else
                         <a href="{{ route('login') }}" class="rounded-full border border-slate-200 px-5 py-2 text-slate-600 transition hover:border-cyan-400 hover:text-slate-900">Log in</a>
                         @if (Route::has('register'))
