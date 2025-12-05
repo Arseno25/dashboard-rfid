@@ -14,11 +14,40 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+    <script>
+        (function () {
+            const storageKey = 'zarly-theme-preference';
+            const root = document.documentElement;
+            const mediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+            function resolve(preference) {
+                if (preference === 'system') {
+                    return mediaQuery && mediaQuery.matches ? 'dark' : 'light';
+                }
+                return preference;
+            }
+
+            function apply(preference) {
+                const resolved = resolve(preference);
+                root.classList.toggle('dark', resolved === 'dark');
+                root.dataset.theme = resolved;
+                root.dataset.themePreference = preference;
+            }
+
+            try {
+                const saved = localStorage.getItem(storageKey) || 'system';
+                apply(saved);
+            } catch (error) {
+                apply('system');
+            }
+        })();
+    </script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('head')
 </head>
 
-<body class="min-h-screen bg-slate-50 text-slate-900">
+<body class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 text-slate-900 transition-colors duration-300 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 dark:text-slate-100">
     <div x-data="cartUI()" x-init="init()" class="relative flex min-h-screen flex-col overflow-hidden">
         <div class="pointer-events-none absolute inset-x-0 top-0 z-0 h-72 bg-gradient-to-b from-cyan-100/80 via-transparent to-transparent"></div>
         <div class="pointer-events-none absolute inset-y-0 left-1/2 z-0 hidden w-[600px] -translate-x-1/2 rounded-full bg-cyan-200/20 blur-[120px] lg:block"></div>
@@ -67,6 +96,115 @@
     @endif
 
     <script>
+        window.themeManager = function () {
+            return {
+                storageKey: 'zarly-theme-preference',
+                current: 'system',
+                menuOpen: false,
+                mediaQuery: null,
+                init() {
+                    this.mediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+                    this.current = this.getStoredPreference();
+                    this.applyTheme(this.current);
+                    this.bindMediaListener();
+                    this.bindGlobalListener();
+                },
+                getStoredPreference() {
+                    try {
+                        return localStorage.getItem(this.storageKey) || 'system';
+                    } catch (error) {
+                        return 'system';
+                    }
+                },
+                persistPreference(value) {
+                    try {
+                        localStorage.setItem(this.storageKey, value);
+                    } catch (error) {
+                        // no-op
+                    }
+                },
+                resolveTheme(value = this.current) {
+                    if (value === 'system') {
+                        return this.mediaQuery && this.mediaQuery.matches ? 'dark' : 'light';
+                    }
+                    return value;
+                },
+                applyTheme(value) {
+                    const resolved = this.resolveTheme(value);
+                    const root = document.documentElement;
+                    root.classList.toggle('dark', resolved === 'dark');
+                    root.dataset.theme = resolved;
+                    root.dataset.themePreference = value;
+                },
+                setTheme(value) {
+                    if (!value) {
+                        return;
+                    }
+                    this.current = value;
+                    this.persistPreference(value);
+                    this.applyTheme(value);
+                    this.menuOpen = false;
+                    window.dispatchEvent(new CustomEvent('theme-changed', {
+                        detail: {
+                            preference: value,
+                            theme: this.resolveTheme(value),
+                        },
+                    }));
+                },
+                buttonLabel() {
+                    switch (this.current) {
+                        case 'dark':
+                            return 'Dark';
+                        case 'light':
+                            return 'Light';
+                        default:
+                            return 'System';
+                    }
+                },
+                resolvedTheme() {
+                    return this.resolveTheme(this.current);
+                },
+                isActive(value) {
+                    return this.current === value;
+                },
+                toggleMenu() {
+                    this.menuOpen = !this.menuOpen;
+                },
+                bindMediaListener() {
+                    if (!this.mediaQuery) {
+                        return;
+                    }
+                    const handler = () => {
+                        if (this.current === 'system') {
+                            this.applyTheme('system');
+                            window.dispatchEvent(new CustomEvent('theme-changed', {
+                                detail: {
+                                    preference: 'system',
+                                    theme: this.resolveTheme('system'),
+                                },
+                            }));
+                        }
+                    };
+                    if (this.mediaQuery.addEventListener) {
+                        this.mediaQuery.addEventListener('change', handler);
+                    } else if (this.mediaQuery.addListener) {
+                        this.mediaQuery.addListener(handler);
+                    }
+                    this.mediaHandler = handler;
+                },
+                bindGlobalListener() {
+                    this.externalHandler = (event) => {
+                        const preference = event?.detail?.preference;
+                        if (!preference || preference === this.current) {
+                            return;
+                        }
+                        this.current = preference;
+                    };
+                    window.addEventListener('theme-changed', this.externalHandler);
+                },
+            };
+        };
+
         window.cartUI = function () {
             return {
                 cartOpen: false,
