@@ -47,12 +47,12 @@
                         'quantity' => 1,
                     ];
                 @endphp
-                <article class="glass-panel relative group flex h-full flex-col overflow-hidden border border-slate-100 bg-white">
+                <article class="glass-panel relative group flex h-full flex-col overflow-hidden rounded-[28px] border border-slate-100 bg-white" data-product-card>
                     <div class="relative h-56 w-full overflow-hidden">
                         @if ($item->getFirstMediaUrl('product_image'))
-                            <img src="{{ $item->getFirstMediaUrl('product_image') }}" alt="{{ $item->name }}" class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-110" />
+                            <img src="{{ $item->getFirstMediaUrl('product_image') }}" alt="{{ $item->name }}" class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-110" data-product-image />
                         @else
-                            <img src="{{ asset('default.png') }}" alt="{{ $item->name }}" class="h-full w-full object-cover" />
+                            <img src="{{ asset('default.png') }}" alt="{{ $item->name }}" class="h-full w-full object-cover" data-product-image />
                         @endif
                         <div class="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-cyan-600">
                             {{ optional($item->category)->name ?? 'Tanpa kategori' }}
@@ -78,7 +78,7 @@
                                 <span class="rounded-full border border-slate-200 px-3 py-1 text-[11px] text-slate-500">Stok {{ $item->stock }}</span>
                             </div>
                             <div class="mt-4 flex flex-col gap-2 sm:flex-row">
-                                <button type="button" @click='addToCart(@json($cartPayload))' class="flex-1 rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition hover:border-cyan-400 hover:text-slate-900">Masukkan keranjang</button>
+                                <button type="button" @click='addToCart(@json($cartPayload), $event)' class="flex-1 rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition hover:border-cyan-400 hover:text-slate-900">Masukkan keranjang</button>
                                 <button type="button" @click='showProductDetail(@json($detailPayload))' class="flex-1 rounded-full bg-slate-900 px-4 py-2 text-center text-xs font-semibold uppercase tracking-widest text-white transition hover:bg-cyan-600">Detail produk</button>
                             </div>
                         </div>

@@ -1,10 +1,10 @@
 <div x-cloak x-show="detailModalOpen" class="fixed inset-0 z-[120] flex items-center justify-center" x-transition.opacity>
     <div class="absolute inset-0 bg-slate-900/70" @click="closeProductDetail"></div>
-    <div class="relative mx-4 w-full max-w-3xl rounded-[32px] bg-white p-6 shadow-2xl" x-transition>
+    <div class="relative mx-4 w-full max-w-3xl rounded-[32px] bg-white p-6 shadow-2xl" x-transition data-product-card>
         <div class="flex flex-col gap-6 lg:flex-row">
             <div class="flex-1">
                 <div class="overflow-hidden rounded-3xl bg-slate-100">
-                    <img :src="detailProduct?.image || @json(asset('default.png'))" :alt="detailProduct?.name || 'Produk'" class="h-64 w-full object-cover" />
+                    <img :src="detailProduct?.image || @json(asset('default.png'))" :alt="detailProduct?.name || 'Produk'" class="h-64 w-full object-cover" data-product-image />
                 </div>
             </div>
             <div class="flex flex-1 flex-col gap-4">
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="mt-2 flex flex-col gap-3 sm:flex-row">
-                    <button type="button" class="flex-1 rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-cyan-600" @click="detailProduct && addToCart(detailProduct)">
+                    <button type="button" class="flex-1 rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-cyan-600" @click="detailProduct && addToCart(detailProduct, $event)">
                         Masukkan keranjang
                     </button>
                     <button type="button" class="flex-1 rounded-full border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-600 transition hover:border-cyan-400 hover:text-slate-900" @click="closeProductDetail">

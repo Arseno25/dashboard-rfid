@@ -13,10 +13,10 @@
     $mediaUrl = $productEntity && $productEntity->getFirstMediaUrl('product_image') ? $productEntity->getFirstMediaUrl('product_image') : asset('default.png');
 @endphp
 
-<div class="grid gap-10 lg:grid-cols-[1.6fr,1fr]">
+<div class="grid gap-10 lg:grid-cols-[1.6fr,1fr]" data-product-card>
     <div class="glass-panel overflow-hidden">
         <div class="relative aspect-square w-full overflow-hidden rounded-[28px] bg-slate-100">
-            <img src="{{ $mediaUrl }}" alt="{{ $productEntity->name ?? 'Produk' }}" class="h-full w-full object-cover" />
+            <img src="{{ $mediaUrl }}" alt="{{ $productEntity->name ?? 'Produk' }}" class="h-full w-full object-cover" data-product-image />
             <span class="absolute left-6 top-6 rounded-full bg-white/90 px-4 py-2 text-xs font-semibold text-cyan-600">{{ $categoryName }}</span>
             <span class="absolute right-6 top-6 rounded-full bg-slate-900/90 px-4 py-2 text-xs font-semibold text-white">Stok {{ $stock }}</span>
         </div>
@@ -78,7 +78,7 @@
             ];
         @endphp
         <div class="mt-10 flex flex-col gap-3 sm:flex-row">
-            <button @click='addToCart(@json($detailCartPayload))' class="flex-1 rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-cyan-600">Tambah ke keranjang</button>
+            <button @click='addToCart(@json($detailCartPayload), $event)' class="flex-1 rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-cyan-600">Tambah ke keranjang</button>
             <a href="{{ url()->previous() }}" class="flex-1 rounded-full border border-slate-200 px-6 py-3 text-center text-sm font-semibold text-slate-600 transition hover:border-cyan-400 hover:text-slate-900">Kembali</a>
         </div>
     </div>

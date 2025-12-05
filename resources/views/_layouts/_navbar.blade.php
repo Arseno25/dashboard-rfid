@@ -45,7 +45,7 @@
                     <a href="{{ route('login') }}" class="rounded-full border border-slate-200 px-4 py-2 text-slate-600 transition hover:border-cyan-400 hover:text-slate-900">Masuk</a>
                     <a href="{{ route('register') }}" class="rounded-full border border-slate-200 px-4 py-2 text-slate-600 transition hover:border-cyan-400 hover:text-slate-900">Daftar</a>
                 @endauth
-                <button @click="cartOpen = true" class="relative inline-flex items-center gap-2 rounded-full bg-cyan-600 px-5 py-2 text-white shadow-lg shadow-cyan-600/40 transition hover:bg-cyan-500">
+                <button @click="cartOpen = true" class="relative inline-flex items-center gap-2 rounded-full bg-cyan-600 px-5 py-2 text-white shadow-lg shadow-cyan-600/40 transition hover:bg-cyan-500" data-cart-target>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.5 4h1.878a1 1 0 01.98.804L6.5 12.5m0 0-.63 3.146A2 2 0 007.842 18h10.316a2 2 0 001.972-1.684L21.5 9.5H7m-1.5 7.5a1 1 0 102 0 1 1 0 00-2 0zm10 0a1 1 0 102 0 1 1 0 00-2 0z" />
                     </svg>
@@ -87,7 +87,7 @@
                         <a href="{{ route('register') }}" class="flex-1 rounded-full border border-slate-200 px-4 py-2 text-center text-slate-600">Daftar</a>
                     </div>
                 @endauth
-                <button @click="cartOpen = true; mobileNavOpen = false" class="relative mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-cyan-600 px-4 py-2 text-white shadow-lg shadow-cyan-600/40">
+                <button @click="cartOpen = true; mobileNavOpen = false" class="relative mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-cyan-600 px-4 py-2 text-white shadow-lg shadow-cyan-600/40" data-cart-target>
                     Buka Keranjang
                     <span x-show="cartItemCount() > 0" class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-white text-[10px] font-semibold text-cyan-600 shadow-lg shadow-cyan-600/40" x-text="cartItemCount()"></span>
                 </button>

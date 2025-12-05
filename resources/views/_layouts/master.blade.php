@@ -100,7 +100,7 @@
                     this.prefillCustomerProfile();
                     this.applyPendingCartIntent();
                 },
-                addToCart(product) {
+                addToCart(product, event = null) {
                     const normalizedProduct = this.normalizeCartItem(product);
                     if (!normalizedProduct) {
                         return;
@@ -115,6 +115,8 @@
                     }
 
                     this.appendCartItem(normalizedProduct);
+                    const animationImage = normalizedProduct?.image || product?.image || null;
+                    this.animateCartFly(event, animationImage);
                     if (this.detailModalOpen) {
                         this.closeProductDetail();
                     }
@@ -134,6 +136,75 @@
                     if (!silent) {
                         this.pushToast(`${normalized.name ?? 'Produk'} ditambahkan ke keranjang.`, 'success');
                     }
+                },
+                animateCartFly(event, imageUrl = null) {
+                    if (typeof document === 'undefined' || typeof window === 'undefined' || !event) {
+                        return;
+                    }
+                    const cartTarget = this.getVisibleCartTarget();
+                    const triggerElement = event.currentTarget || event.target;
+                    if (!cartTarget || !triggerElement) {
+                        return;
+                    }
+                    const cardElement = typeof triggerElement.closest === 'function'
+                        ? triggerElement.closest('[data-product-card]')
+                        : null;
+                    const mediaElement = cardElement?.querySelector?.('[data-product-image]');
+                    const referenceElement = mediaElement || cardElement || triggerElement;
+                    const originRect = referenceElement?.getBoundingClientRect?.();
+                    const targetRect = cartTarget.getBoundingClientRect?.();
+                    if (!originRect || !targetRect) {
+                        return;
+                    }
+                    const flyer = document.createElement('div');
+                    flyer.setAttribute('aria-hidden', 'true');
+                    flyer.className = 'pointer-events-none fixed z-[140] shadow-2xl shadow-slate-900/20 ring-1 ring-white/50';
+                    flyer.style.left = `${originRect.left}px`;
+                    flyer.style.top = `${originRect.top}px`;
+                    flyer.style.width = `${originRect.width}px`;
+                    flyer.style.height = `${originRect.height}px`;
+                    flyer.style.borderRadius = '28px';
+                    flyer.style.background = imageUrl ? `url("${imageUrl}") center/cover no-repeat` : 'linear-gradient(135deg, #06b6d4, #0f172a)';
+                    flyer.style.opacity = '0.95';
+                    flyer.style.transform = 'scale(1)';
+                    flyer.style.transition = 'transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.7s ease-out';
+                    flyer.style.willChange = 'transform, opacity';
+                    document.body.appendChild(flyer);
+
+                    requestAnimationFrame(() => {
+                        const deltaX = (targetRect.left + targetRect.width / 2) - (originRect.left + originRect.width / 2);
+                        const deltaY = (targetRect.top + targetRect.height / 2) - (originRect.top + originRect.height / 2);
+                        flyer.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.15)`;
+                        flyer.style.opacity = '0';
+                    });
+
+                    const cleanup = () => {
+                        flyer.remove();
+                    };
+                    flyer.addEventListener('transitionend', cleanup, { once: true });
+                    setTimeout(() => {
+                        if (document.body.contains(flyer)) {
+                            cleanup();
+                        }
+                    }, 900);
+                },
+                getVisibleCartTarget() {
+                    if (typeof document === 'undefined' || typeof window === 'undefined') {
+                        return null;
+                    }
+                    const targets = document.querySelectorAll('[data-cart-target]');
+                    for (const target of targets) {
+                        const rect = target.getBoundingClientRect?.();
+                        if (!rect || !rect.width || !rect.height) {
+                            continue;
+                        }
+                        const styles = window.getComputedStyle(target);
+                        if (styles.display === 'none' || styles.visibility === 'hidden' || styles.opacity === '0') {
+                            continue;
+                        }
+                        return target;
+                    }
+                    return targets[0] || null;
                 },
                 removeItem(index) {
                     if (index < 0) return;
