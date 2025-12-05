@@ -11,6 +11,10 @@
         <form method="POST" action="{{ route('login') }}" class="space-y-5">
             @csrf
 
+            @if(!empty($redirectTo))
+                <input type="hidden" name="redirect" value="{{ $redirectTo }}">
+            @endif
+
             <div class="space-y-2">
                 <x-input-label for="email" value="Email" />
                 <x-text-input id="email" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="nama@pelanggan.com" />

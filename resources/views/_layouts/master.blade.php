@@ -92,32 +92,48 @@
                 toasts: [],
                 toastIncrement: 0,
                 cartStorageKey: 'zarly-cart-items',
+                pendingCartIntentKey: 'zarly-pending-cart-intent',
+                pendingCartIntentTtlMs: 10 * 60 * 1000,
                 storageReady: null,
                 init() {
                     this.loadCartFromStorage();
                     this.prefillCustomerProfile();
+                    this.applyPendingCartIntent();
                 },
                 addToCart(product) {
-                    if (!this.isAuthenticated) {
-                        this.pushToast('Silakan masuk untuk menambahkan produk ke keranjang.', 'warning');
-                        window.location.href = this.loginUrl;
+                    const normalizedProduct = this.normalizeCartItem(product);
+                    if (!normalizedProduct) {
                         return;
                     }
-                    if (!product) return;
-                    const existing = this.cartItems.find(item => item.id === product.id);
-                    if (existing) {
-                        existing.quantity += product.quantity || 1;
-                    } else {
-                        this.cartItems.push({
-                            ...product,
-                            quantity: product.quantity || 1,
-                        });
+
+                    if (!this.isAuthenticated) {
+                        const redirectPath = this.getCurrentPath();
+                        this.storePendingCartIntent(normalizedProduct, redirectPath);
+                        this.pushToast('Silakan masuk untuk menambahkan produk ke keranjang.', 'warning');
+                        window.location.href = this.buildLoginRedirectUrl(redirectPath);
+                        return;
                     }
-                    this.pushToast(`${product.name ?? 'Produk'} ditambahkan ke keranjang.`, 'success');
+
+                    this.appendCartItem(normalizedProduct);
                     if (this.detailModalOpen) {
                         this.closeProductDetail();
                     }
+                },
+                appendCartItem(product, { silent = false } = {}) {
+                    const normalized = this.normalizeCartItem(product);
+                    if (!normalized) {
+                        return;
+                    }
+                    const existing = this.cartItems.find(item => item.id === normalized.id);
+                    if (existing) {
+                        existing.quantity += normalized.quantity ?? 1;
+                    } else {
+                        this.cartItems.push(normalized);
+                    }
                     this.persistCart();
+                    if (!silent) {
+                        this.pushToast(`${normalized.name ?? 'Produk'} ditambahkan ke keranjang.`, 'success');
+                    }
                 },
                 removeItem(index) {
                     if (index < 0) return;
@@ -387,6 +403,70 @@
                     }
                     window.localStorage.removeItem(this.cartStorageKey);
                 },
+                storePendingCartIntent(product, redirectPath = null) {
+                    if (!this.storageAvailable()) {
+                        return;
+                    }
+                    try {
+                        const payload = {
+                            product,
+                            redirect: redirectPath && redirectPath.startsWith('/') ? redirectPath : this.getCurrentPath(),
+                            stored_at: Date.now(),
+                        };
+                        window.localStorage.setItem(this.pendingCartIntentKey, JSON.stringify(payload));
+                    } catch (error) {
+                        console.warn('Gagal menyimpan niat keranjang.', error);
+                    }
+                },
+                readPendingCartIntent() {
+                    if (!this.storageAvailable()) {
+                        return null;
+                    }
+                    try {
+                        const raw = window.localStorage.getItem(this.pendingCartIntentKey);
+                        if (!raw) {
+                            return null;
+                        }
+                        const parsed = JSON.parse(raw);
+                        if (!parsed || typeof parsed !== 'object') {
+                            return null;
+                        }
+                        const storedAt = typeof parsed.stored_at === 'number' ? parsed.stored_at : null;
+                        if (storedAt && Date.now() - storedAt > this.pendingCartIntentTtlMs) {
+                            this.clearPendingCartIntent();
+                            return null;
+                        }
+                        const normalizedProduct = this.normalizeCartItem(parsed.product);
+                        if (!normalizedProduct) {
+                            return null;
+                        }
+                        return {
+                            product: normalizedProduct,
+                            redirect: typeof parsed.redirect === 'string' ? parsed.redirect : null,
+                        };
+                    } catch (error) {
+                        console.warn('Gagal membaca niat keranjang.', error);
+                        return null;
+                    }
+                },
+                clearPendingCartIntent() {
+                    if (!this.storageAvailable()) {
+                        return;
+                    }
+                    window.localStorage.removeItem(this.pendingCartIntentKey);
+                },
+                applyPendingCartIntent() {
+                    if (!this.isAuthenticated) {
+                        return;
+                    }
+                    const intent = this.readPendingCartIntent();
+                    if (!intent || !intent.product) {
+                        return;
+                    }
+                    this.clearPendingCartIntent();
+                    this.appendCartItem(intent.product, { silent: true });
+                    this.pushToast(`${intent.product.name ?? 'Produk'} dimasukkan ke keranjang setelah login.`, 'success');
+                },
                 prefillCustomerProfile() {
                     if (!this.isAuthenticated || !this.userProfile) {
                         this.checkoutForm.name = '';
@@ -397,6 +477,29 @@
                     this.checkoutForm.name = this.userProfile.name ?? '';
                     this.checkoutForm.email = this.userProfile.email ?? '';
                     this.checkoutForm.phone = this.userProfile.phone ?? '';
+                },
+                buildLoginRedirectUrl(targetPath = null) {
+                    const redirectPath = typeof targetPath === 'string' && targetPath.startsWith('/')
+                        ? targetPath
+                        : this.getCurrentPath();
+                    if (!redirectPath) {
+                        return this.loginUrl;
+                    }
+                    try {
+                        const loginUrl = new URL(this.loginUrl, window.location.origin);
+                        loginUrl.searchParams.set('redirect', redirectPath);
+                        return loginUrl.toString();
+                    } catch (error) {
+                        const separator = this.loginUrl.includes('?') ? '&' : '?';
+                        return `${this.loginUrl}${separator}redirect=${encodeURIComponent(redirectPath)}`;
+                    }
+                },
+                getCurrentPath() {
+                    if (typeof window === 'undefined' || !window.location) {
+                        return '/';
+                    }
+                    const { pathname = '/', search = '', hash = '' } = window.location;
+                    return `${pathname}${search}${hash}` || '/';
                 },
             };
         };
