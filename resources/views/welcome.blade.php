@@ -1,13 +1,19 @@
 @extends('_layouts.master')
 
 @section('body')
+@php
+    $siteName = $siteSettings['name'] ?? 'Zarly Petshop';
+    $heroTitle = $siteSettings['hero_title'] ?? 'Dashboard unggulan';
+    $heroSubtitle = $siteSettings['hero_subtitle'] ?? 'Tempat terbaik untuk memamerkan koleksi perlengkapan hewan, menerima pesanan, dan mengelola stok secara elegan.';
+@endphp
+
 <section class="glass-panel px-8 py-12">
     <div class="flex flex-col gap-6">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <p class="text-xs uppercase tracking-[0.4em] text-slate-400">Selamat datang</p>
-                <h1 class="mt-3 text-4xl font-semibold text-slate-900">Zarly Petshop Dashboard</h1>
-                <p class="mt-4 text-base text-slate-500">Tempat terbaik untuk memamerkan koleksi perlengkapan hewan, menerima pesanan, dan mengelola stok secara elegan.</p>
+                <p class="text-xs uppercase tracking-[0.4em] text-slate-400">{{ $siteName }}</p>
+                <h1 class="mt-3 text-4xl font-semibold text-slate-900">{{ $heroTitle }}</h1>
+                <p class="mt-4 text-base text-slate-500">{{ $heroSubtitle }}</p>
             </div>
             @if (Route::has('login'))
                 <div class="flex gap-3 text-sm font-semibold">

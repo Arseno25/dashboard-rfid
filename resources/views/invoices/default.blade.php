@@ -1,5 +1,6 @@
 @php
     $total = formatCurrency($order->total ?? 0, 'Rp. ', 0);
+    $siteName = $siteSettings['name'] ?? config('app.name', 'Zarly Petshop');
 @endphp
 <!DOCTYPE html>
 <html lang="id">
@@ -27,7 +28,7 @@
     <div class="invoice">
         <div class="header">
             <div>
-                <div class="brand">{{ config('app.name', 'Zarly Petshop') }}</div>
+                <div class="brand">{{ $siteName }}</div>
                 <p style="margin:4px 0 0; color:#475569;">Invoice resmi</p>
             </div>
             <div class="meta">

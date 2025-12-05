@@ -7,9 +7,20 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="referrer" content="always">
-    <meta name="description" content="Zarly Petshop Dashboard - curated inventory & checkout experience" />
 
-    <title>{{ config('app.name', 'ZARLY PETSHOP') }} • Retail Experience</title>
+    @php
+        use Illuminate\Support\Facades\Storage;
+        $siteName = $siteSettings['name'] ?? config('app.name', 'ZARLY PETSHOP');
+        $brandFavicon = $siteSettings['brand_favicon_path'] ?? null;
+        $metaDescription = $siteSettings['meta_description'] ?? 'Dashboard curated inventory & checkout experience';
+    @endphp
+
+    <title>{{ $siteName }} • Retail Experience</title>
+    <meta name="description" content="{{ $metaDescription }}" />
+
+    @if ($brandFavicon)
+        <link rel="icon" type="image/png" href="{{ Storage::url($brandFavicon) }}">
+    @endif
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

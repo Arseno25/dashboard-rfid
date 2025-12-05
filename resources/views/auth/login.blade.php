@@ -1,3 +1,7 @@
+@php
+    $siteName = $siteSettings['name'] ?? 'Zarly Petshop';
+@endphp
+
 <x-guest-layout>
     <div class="space-y-8">
         <div class="space-y-3">
@@ -46,7 +50,7 @@
         </form>
 
         <p class="text-center text-sm text-slate-500">
-            Baru di Zarly Petshop?
+            Baru di {{ $siteName }}?
             <a href="{{ route('register') }}" class="font-semibold text-cyan-600 transition hover:text-cyan-500">Buat akun</a>
         </p>
     </div>

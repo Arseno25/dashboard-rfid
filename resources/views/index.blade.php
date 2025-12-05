@@ -1,12 +1,18 @@
 @extends('_layouts.master')
 
 @section('body')
+@php
+    $siteName = $siteSettings['name'] ?? 'Zarly Petshop';
+    $heroTitle = $siteSettings['hero_title'] ?? 'Dashboard RFID untuk petshop yang gesit dan premium.';
+    $heroSubtitle = $siteSettings['hero_subtitle'] ?? 'Visual profesional agar tim toko dapat mempromosikan produk unggulan dengan cepat.';
+@endphp
+
 <section class="glass-panel px-8 py-12">
     <div class="grid gap-10 lg:grid-cols-2">
         <div>
-            <p class="text-xs uppercase tracking-[0.4em] text-slate-400">RFID powered</p>
-            <h1 class="mt-3 text-4xl font-semibold text-slate-900">Dashboard RFID untuk petshop yang gesit dan premium.</h1>
-            <p class="mt-4 text-base text-slate-500">Zarly Petshop menyajikan inventori dengan visual profesional agar tim toko dapat mempromosikan produk unggulan dengan cepat.</p>
+            <p class="text-xs uppercase tracking-[0.4em] text-slate-400">{{ $siteName }}</p>
+            <h1 class="mt-3 text-4xl font-semibold text-slate-900">{{ $heroTitle }}</h1>
+            <p class="mt-4 text-base text-slate-500">{{ $heroSubtitle }}</p>
             <div class="mt-8 flex flex-wrap gap-3 text-sm text-slate-500">
                 <span class="rounded-full border border-slate-200 px-4 py-2">Realtime stock</span>
                 <span class="rounded-full border border-slate-200 px-4 py-2">Insight pelanggan</span>

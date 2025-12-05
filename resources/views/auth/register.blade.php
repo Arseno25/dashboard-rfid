@@ -1,3 +1,7 @@
+@php
+    $siteName = $siteSettings['name'] ?? 'Zarly Petshop';
+@endphp
+
 <x-guest-layout>
     <div class="space-y-8">
         <div class="space-y-3">
@@ -42,7 +46,7 @@
             </div>
 
             <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-500">
-                Dengan membuat akun, Anda menyetujui kebijakan privasi Zarly Petshop dan bersedia menerima email terkait status pesanan.
+                Dengan membuat akun, Anda menyetujui kebijakan privasi {{ $siteName }} dan bersedia menerima email terkait status pesanan.
             </div>
 
             <x-primary-button class="w-full justify-center">Buat akun baru</x-primary-button>

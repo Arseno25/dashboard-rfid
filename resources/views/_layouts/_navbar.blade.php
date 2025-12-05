@@ -1,11 +1,22 @@
+@php
+    use Illuminate\Support\Facades\Storage;
+    $siteName = $siteSettings['name'] ?? 'Zarly Petshop';
+    $siteTagline = $siteSettings['tagline'] ?? 'Inventory & Experience Hub';
+    $brandLogo = $siteSettings['brand_logo_path'] ?? null;
+@endphp
+
 <header class="relative z-20 w-full">
     <div class="mx-auto mt-6 w-full max-w-6xl px-6 lg:px-8">
         <div class="glass-panel flex flex-wrap items-center justify-between gap-4 px-6 py-5 lg:flex-nowrap">
             <div class="flex items-center gap-4">
-                <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500 text-lg font-semibold text-white shadow-lg shadow-cyan-500/40 dark:bg-cyan-400/80">ZP</span>
+                @if ($brandLogo)
+                    <img src="{{ Storage::url($brandLogo) }}" alt="{{ $siteName }}" class="h-12 w-12 rounded-2xl border border-white/40 object-cover shadow-lg shadow-slate-900/20 dark:border-white/10" />
+                @else
+                    <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500 text-lg font-semibold text-white shadow-lg shadow-cyan-500/40 dark:bg-cyan-400/80">{{ strtoupper(mb_substr($siteName, 0, 2)) }}</span>
+                @endif
                 <div>
-                    <p class="text-xs uppercase tracking-[0.4em] text-slate-500 dark:text-slate-300">Zarly Petshop</p>
-                    <p class="text-lg font-semibold text-slate-900 dark:text-white">Inventory & Experience Hub</p>
+                    <p class="text-xs uppercase tracking-[0.4em] text-slate-500 dark:text-slate-300">{{ $siteName }}</p>
+                    <p class="text-lg font-semibold text-slate-900 dark:text-white">{{ $siteTagline }}</p>
                 </div>
             </div>
             <nav class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-500 dark:text-slate-300">

@@ -16,3 +16,10 @@ if (!function_exists('formatCurrency')) {
     return $currencySymbol . number_format($value, $decimalPlaces, $decimalSeparator, $thousandsSeparator);
   }
 }
+
+if (! function_exists('setting_value')) {
+    function setting_value(string $key, $default = null)
+    {
+        return \App\Models\Setting::cachedValue($key, $default);
+    }
+}

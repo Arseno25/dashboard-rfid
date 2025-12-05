@@ -5,7 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        @php
+            $siteName = $siteSettings['name'] ?? config('app.name', 'Laravel');
+            $siteTagline = $siteSettings['tagline'] ?? 'Inventory & Experience Hub';
+            $siteInitials = strtoupper(mb_substr($siteName, 0, 2));
+        @endphp
+
+        <title>{{ $siteName }} • Auth</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -25,10 +31,10 @@
             <div class="relative mx-auto flex max-w-6xl flex-col gap-12 lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
                 <div class="space-y-6 text-slate-100">
                     <a href="/" class="inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold backdrop-blur">
-                        <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-lg font-semibold text-white">ZP</span>
+                        <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-lg font-semibold text-white">{{ $siteInitials }}</span>
                         <div>
-                            <p class="text-xs uppercase tracking-[0.4em] text-white/60">Zarly Petshop</p>
-                            <p class="text-lg font-semibold">Inventory & Experience Hub</p>
+                            <p class="text-xs uppercase tracking-[0.4em] text-white/60">{{ $siteName }}</p>
+                            <p class="text-lg font-semibold">{{ $siteTagline }}</p>
                         </div>
                     </a>
                     <div class="space-y-4">

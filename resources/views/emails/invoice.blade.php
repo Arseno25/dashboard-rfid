@@ -1,5 +1,6 @@
 @php
     $total = formatCurrency($order->total ?? 0, 'Rp. ', 0);
+    $siteName = $siteSettings['name'] ?? config('app.name', 'Zarly Petshop');
 @endphp
 
 <x-mail::message>
@@ -15,9 +16,9 @@ Pembayaran untuk pesanan **{{ $order->order_number }}** telah kami terima. Terla
 **Status:** {{ ucfirst($order->payment_status) }}
 </x-mail::panel>
 
-Silakan hubungi tim Zarly Petshop apabila membutuhkan bantuan lanjutan.
+Silakan hubungi tim {{ $siteName }} apabila membutuhkan bantuan lanjutan.
 
 Salam hangat,
 
-**{{ config('app.name', 'Zarly Petshop') }}**
+**{{ $siteName }}**
 </x-mail::message>

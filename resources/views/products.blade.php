@@ -5,15 +5,18 @@
     $activeDiscount = optional($discount)->percentage ?? 0;
     $discountLabel = optional($discount)->name ?? 'Promo belum tersedia';
     $productCount = $product->total();
+    $siteName = $siteSettings['name'] ?? 'Zarly Petshop';
+    $heroTitle = $siteSettings['hero_title'] ?? 'Kurasi kebutuhan hewan kesayangan dalam satu dasbor elegan.';
+    $heroSubtitle = $siteSettings['hero_subtitle'] ?? 'Pantau stok, promo, dan performa produk dengan tampilan yang rapi agar setiap pelanggan menemukan perlengkapan terbaiknya.';
 @endphp
 
 <div x-data="productExplorer({ endpoint: '{{ route('search') }}' })" x-init="boot(@js($search ?? ''))" class="space-y-10">
 <section class="glass-panel px-8 py-10">
     <div class="grid gap-8 lg:grid-cols-2">
         <div>
-            <p class="text-xs uppercase tracking-[0.4em] text-slate-400">Etalase unggulan</p>
-            <h1 class="mt-3 text-4xl font-semibold text-slate-900">Kurasi kebutuhan hewan kesayangan dalam satu dasbor elegan.</h1>
-            <p class="mt-4 text-base text-slate-500">Pantau stok, promo, dan performa produk dengan tampilan yang rapi agar setiap pelanggan menemukan perlengkapan terbaiknya.</p>
+            <p class="text-xs uppercase tracking-[0.4em] text-slate-400">{{ $siteName }}</p>
+            <h1 class="mt-3 text-4xl font-semibold text-slate-900 dark:text-white">{{ $heroTitle }}</h1>
+            <p class="mt-4 text-base text-slate-500 dark:text-slate-300">{{ $heroSubtitle }}</p>
             <div class="mt-8 grid gap-4 sm:grid-cols-2">
                 <div class="stat-tile">
                     <p class="text-xs uppercase tracking-wide text-slate-400">Produk aktif</p>
